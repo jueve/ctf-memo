@@ -22,10 +22,11 @@
 テンプレはこれ。
 
 ```
-sudo nmap -vv -sV -sC -T4 -oN nmap/log $MACHINE_IP
+sudo nmap -vv -p- -sV -sC -T4 -oN nmap/log $MACHINE_IP
 ```
 
 - `-vv`  ... 結果を詳細に出力する
+- `-p-`  ... すべてのポートをスキャンする
 - `-sV`  ... 該当するポートで稼働するサービスやバージョンを見つける
 - `-sC`  ... スクリプトを起動する
 - `-oN`  ... 結果をファイルに書き込む
