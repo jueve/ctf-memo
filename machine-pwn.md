@@ -39,7 +39,11 @@ writeupを見ていると[RustScan](https://github.com/RustScan/RustScan)でポ�
 最初は何の言語で動いているかわからないので`-x`は省くことが多い。
 
 ```
+#ディレクトリ探索の例
 gobuster dir -u http://$MACHINE_IP -w /path/to/wordlist -o gobuster/log -x .php,.js
+
+#vhostを見つける例
+gobuster vhost -w http://$MACHINE_IP -w /path/to/wordlist
 ```
 
 - -u ... URLを指定する
@@ -99,6 +103,7 @@ wget -r ftp://user:pass@$MACHINE_IP/
 
 ## Webページからヒントを見つけるために
 - `gobuster`とかでディレクトリ探索をする
+- ドメインを見つけて`/etc/hosts`に追加する
 - バージョンを確認する
     - [Wappalyzer](https://www.wappalyzer.com/)を使う。ChromeとFirefox両方で拡張がある
     - ソフトウェアの名前とバージョン番号で[EXPLOIT DATABASE](https://www.exploit-db.com/)を検索するとexploitが見つかってそのままMetasploit一つで解決することもよくある
@@ -222,6 +227,17 @@ hydra -l admin -P /path/to/wordlist $MACHINE_IP http-get-form '/hidden/login/:us
 ```
 HTTPやHTPPSでリクエストを送るとき、最後の部分は`IP以外のURL:body部分:失敗時のメッセージ`のフォーマットになる。ここで`^USER^`と`^PASS^`と書けばそこにログインユーザーとパスワードをそれぞれ当てはめて試行される。また、`$FAILED_MESSAGE`にはログイン失敗時に表示されるメッセージを書く。ここの書き方を間違えるとすべてのパターンでログインが成功扱いになってしまう。
 
+
+## ffuf
+```
+#LFIの例
+ffuf -w /path/to/wordlist-u 'http://$MACHINE_IP?param=FUZZ' -o ./ffuf.log 
+```
+- `-w` ... ワードリスト
+- `-u` ... URL
+- `-o` ... 結果の保存先
+
+LFIなら`SecLists`の`/Fuzzing/LFI/LFI-Jhaddix.txt`を使う。
 
 ## リバースシェル
 - 基本事項は[TryHackMeのこのroom](https://tryhackme.com/room/introtoshells)で学べる
