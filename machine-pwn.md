@@ -108,7 +108,7 @@ wget -r ftp://user:pass@$MACHINE_IP/
     - コメントにユーザー名や隠しページへのパス、フラグが書かれていることがよくある
     - hidden属性がある要素にヒントが書かれていることがある
 - [TryHackMeのBurp Suiteのページ](https://tryhackme.com/module/learn-burp-suite)で使い方を知る
-    - よく使うのはInterceptorとRepeator
+    - よく使うのはInterceptorとRepeater
     - FoxyProxyを入れておくと切り替え操作が楽になる
 - 開発者ツールでネットワークを確認する
     - ChromeとFirefox両方共、開発者ツールにNetworkタブがある
