@@ -190,7 +190,8 @@ stegcracker -V ./image-file /path/to/wordlist
 
 画像がうまく開けない場合マジックナンバーが不正なことが多い。バイナリエディタで直接編集する。
 
-[File Magic Numbers](https://gist.github.com/leommoore/f9e57ba2aa4bf197ebc5)
+- [JPEG [JAY-peg]](https://github.com/corkami/formats/blob/master/image/jpeg.md)
+- [PNG: Portable Network Graphics [PEE-en-JEE / PING]](https://github.com/corkami/formats/blob/master/image/png.md)
 
 ```
 # hexeditor
